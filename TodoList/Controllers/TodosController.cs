@@ -61,15 +61,14 @@ namespace TodoApp.Controllers
             return View(todo);
         }
 
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var todo = await _context.Todos.FindAsync(id);
-            return todo == null ? NotFound() : View(todo);
-        }
+        //public async Task<IActionResult> Delete(Guid id)
+        //{
+        //    var todo = await _context.Todos.FindAsync(id);
+        //    return todo == null ? NotFound() : View(todo);
+        //}
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+
+        public async Task<IActionResult> Delete(Guid id)
         {
             var todo = await _context.Todos.FindAsync(id);
             _context.Todos.Remove(todo);
