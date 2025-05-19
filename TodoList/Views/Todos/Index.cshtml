@@ -1,0 +1,48 @@
+@model IEnumerable<TodoApp.Models.Todo>
+@{
+    ViewData["Title"] = "Todo List";
+}
+<h2>@ViewData["Title"]</h2>
+
+<form method="get">
+    <select name="status" onchange="this.form.submit()" class="form-select w-25 mb-3">
+        <option value="">All</option>
+        @foreach (var status in Enum.GetNames(typeof(TodoApp.Models.TodoStatus)))
+        {
+            <option value="@status" selected="@(ViewBag.StatusFilter == status ? "selected" : "")">@status</option>
+        }
+    </select>
+</form>
+
+<p><a asp-action="Create" class="btn btn-primary">Create New Todo</a></p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Due</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Status</td>
+                <td>@item.Priority</td>
+                <td>@item.DueDate?.ToShortDateString()</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                    @if (item.Status != TodoApp.Models.TodoStatus.Completed)
+                    {
+                        <a asp-action="MarkAsCompleted" asp-route-id="@item.Id" class="btn btn-sm btn-success">Complete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
