@@ -4,12 +4,16 @@
 }
 <h2>@ViewData["Title"]</h2>
 
+@{
+    string currentStatus = ViewBag.StatusFilter as string ?? "";
+}
 <form method="get">
     <select name="status" onchange="this.form.submit()" class="form-select w-25 mb-3">
-        <option value="">All</option>
+        <option value="" selected="@(string.IsNullOrEmpty(currentStatus))">All</option>
         @foreach (var status in Enum.GetNames(typeof(TodoApp.Models.TodoStatus)))
         {
-            <option value="@status" selected="@(ViewBag.StatusFilter == status ? "selected" : "")">@status</option>
+            var isSelected = status == currentStatus ? "selected" : null;
+            <option value="@status" selected="@isSelected">@status</option>
         }
     </select>
 </form>

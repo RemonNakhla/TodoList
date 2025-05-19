@@ -17,7 +17,7 @@ namespace TodoApp.Controllers
         public async Task<IActionResult> Index(string status)
         {
             var todos = from t in _context.Todos select t;
-            if (!string.IsNullOrEmpty(status) && Enum.TryParse<TodoStatus>(status, out var parsedStatus))
+            if (!string.IsNullOrEmpty(status) && Enum.TryParse<TodoStatus>(status, ignoreCase: true, out var parsedStatus))
             {
                 todos = todos.Where(t => t.Status == parsedStatus);
             }
